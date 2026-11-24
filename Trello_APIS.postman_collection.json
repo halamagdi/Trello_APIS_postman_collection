@@ -1,0 +1,1842 @@
+{
+  "info": {
+    "_postman_id": "b332abfa-a360-4357-8f97-e7c4ef2a50c5",
+    "name": "Trello_APIS",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "18436403"
+  },
+  "item": [
+    {
+      "name": "Boards",
+      "item": [
+        {
+          "name": "Create Board",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "let response = pm.response.json();\r",
+                  "if (pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "})){\r",
+                  "pm.collectionVariables.set(\"board_id\", response.id);\r",
+                  "pm.test(\"Correct Board Name\", function () {\r",
+                  "    pm.expect(response.name).to.eql(\"Board\");\r",
+                  "});\r",
+                  "};\r",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "ATTAd29247c9263e848d40c0995a2200b048c66c4e5fb33fce89f1437be521a21008B5B19760",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "https://api.trello.com/1/boards/?name=Board&key={{key}}&token={{token}}",
+              "protocol": "https",
+              "host": [
+                "api",
+                "trello",
+                "com"
+              ],
+              "path": [
+                "1",
+                "boards",
+                ""
+              ],
+              "query": [
+                {
+                  "key": "name",
+                  "value": "Board"
+                },
+                {
+                  "key": "key",
+                  "value": "{{key}}"
+                },
+                {
+                  "key": "token",
+                  "value": "{{token}}"
+                }
+              ]
+            },
+            "description": "Generated from cURL: curl --request POST \\\r\n  --url 'https://api.trello.com/1/boards/?name={name}' \\\r\n  --header 'Authorization: Bearer <access_token>'"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Board",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "let response = pm.response.json(); // Parse the JSON response\r",
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "pm.test(\"Permission level is 'private'\", function(){\r",
+                  "    pm.expect(response).to.have.property('prefs').that.has.property('permissionLevel', 'private');\r",
+                  "});\r",
+                  "pm.test(\"Fields 'name', 'desc', and 'url' are present\", function(){\r",
+                  "    pm.expect(response.name).to.exist;\r",
+                  "    pm.expect(response.desc).to.exist;\r",
+                  "    pm.expect(response.url).to.exist;\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer <access_token>",
+                "disabled": true
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "https://api.trello.com/1/boards/{{board_id}}?key={{key}}&token={{token}}",
+              "protocol": "https",
+              "host": [
+                "api",
+                "trello",
+                "com"
+              ],
+              "path": [
+                "1",
+                "boards",
+                "{{board_id}}"
+              ],
+              "query": [
+                {
+                  "key": "key",
+                  "value": "{{key}}"
+                },
+                {
+                  "key": "token",
+                  "value": "{{token}}"
+                }
+              ]
+            },
+            "description": "Generated from cURL: curl --request GET \\\r\n  --url 'https://api.trello.com/1/boards/{id}' \\\r\n  --header 'Authorization: Bearer <access_token>' \\\r\n  --header 'Accept: application/json'"
+          },
+          "response": []
+        },
+        {
+          "name": "Update Board",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer <access_token>",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "https://api.trello.com/1/boards/{{board_id}}?key={{key}}&token={{token}}&name=New Board&closed=false&prefs/permissionLevel=public&prefs/comments=public",
+              "protocol": "https",
+              "host": [
+                "api",
+                "trello",
+                "com"
+              ],
+              "path": [
+                "1",
+                "boards",
+                "{{board_id}}"
+              ],
+              "query": [
+                {
+                  "key": "key",
+                  "value": "{{key}}"
+                },
+                {
+                  "key": "token",
+                  "value": "{{token}}"
+                },
+                {
+                  "key": "name",
+                  "value": "New Board"
+                },
+                {
+                  "key": "closed",
+                  "value": "false"
+                },
+                {
+                  "key": "prefs/permissionLevel",
+                  "value": "public",
+                  "type": "text"
+                },
+                {
+                  "key": "prefs/comments",
+                  "value": "public",
+                  "type": "text"
+                }
+              ]
+            },
+            "description": "Generated from cURL: curl --request PUT \\\r\n  --url 'https://api.trello.com/1/boards/{id}' \\\r\n  --header 'Authorization: Bearer <access_token>'"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Board Copy",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "let jsonData = pm.response.json();\r",
+                  "\r",
+                  "pm.test(\"Upadted Name is true\", function () {\r",
+                  "    pm.expect(jsonData.name).to.eql(\"New Board\");\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Closed is false\", function () {\r",
+                  "    pm.expect(jsonData.closed).to.eql(false);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Upadted Permission Level is Public\", function () {\r",
+                  "    pm.expect(jsonData.prefs.permissionLevel).to.eql(\"public\");\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Upadted comments is Public\", function () {\r",
+                  "    pm.expect(jsonData.prefs.comments).to.eql(\"public\");\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer <access_token>",
+                "disabled": true
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "https://api.trello.com/1/boards/{{board_id}}?key={{key}}&token={{token}}",
+              "protocol": "https",
+              "host": [
+                "api",
+                "trello",
+                "com"
+              ],
+              "path": [
+                "1",
+                "boards",
+                "{{board_id}}"
+              ],
+              "query": [
+                {
+                  "key": "key",
+                  "value": "{{key}}"
+                },
+                {
+                  "key": "token",
+                  "value": "{{token}}"
+                }
+              ]
+            },
+            "description": "Generated from cURL: curl --request GET \\\r\n  --url 'https://api.trello.com/1/boards/{id}' \\\r\n  --header 'Authorization: Bearer <access_token>' \\\r\n  --header 'Accept: application/json'"
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Board",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "\r",
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "})\r",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer ATTAd29247c9263e848d40c0995a2200b048c66c4e5fb33fce89f1437be521a21008B5B19760",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "https://api.trello.com/1/boards/{{board_id}}?key={{key}}&token={{token}}",
+              "protocol": "https",
+              "host": [
+                "api",
+                "trello",
+                "com"
+              ],
+              "path": [
+                "1",
+                "boards",
+                "{{board_id}}"
+              ],
+              "query": [
+                {
+                  "key": "key",
+                  "value": "{{key}}"
+                },
+                {
+                  "key": "token",
+                  "value": "{{token}}"
+                }
+              ]
+            },
+            "description": "Generated from cURL: curl --request DELETE \\\r\n  --url 'https://api.trello.com/1/boards/{id}' \\\r\n  --header 'Authorization: Bearer <access_token>'"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Board Copy",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 404\", function () {\r",
+                  "    pm.response.to.have.status(404);\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer <access_token>",
+                "disabled": true
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "https://api.trello.com/1/boards/{{board_id}}?key={{key}}&token={{token}}",
+              "protocol": "https",
+              "host": [
+                "api",
+                "trello",
+                "com"
+              ],
+              "path": [
+                "1",
+                "boards",
+                "{{board_id}}"
+              ],
+              "query": [
+                {
+                  "key": "key",
+                  "value": "{{key}}"
+                },
+                {
+                  "key": "token",
+                  "value": "{{token}}"
+                }
+              ]
+            },
+            "description": "Generated from cURL: curl --request GET \\\r\n  --url 'https://api.trello.com/1/boards/{id}' \\\r\n  --header 'Authorization: Bearer <access_token>' \\\r\n  --header 'Accept: application/json'"
+          },
+          "response": []
+        },
+        {
+          "name": "Get List Copy",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 404\", function () {\r",
+                  "    pm.response.to.have.status(404);\r",
+                  "});\r",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer <access_token>",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "https://api.trello.com/1/lists/{{list_id}}?key={{key}}&token={{token}}",
+              "protocol": "https",
+              "host": [
+                "api",
+                "trello",
+                "com"
+              ],
+              "path": [
+                "1",
+                "lists",
+                "{{list_id}}"
+              ],
+              "query": [
+                {
+                  "key": "key",
+                  "value": "{{key}}"
+                },
+                {
+                  "key": "token",
+                  "value": "{{token}}"
+                }
+              ]
+            },
+            "description": "Generated from cURL: curl --request GET \\\r\n  --url 'https://api.trello.com/1/lists/{id}' \\\r\n  --header 'Authorization: Bearer <access_token>'"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Lists",
+      "item": [
+        {
+          "name": "Create List",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "let response = pm.response.json();\r",
+                  "if (pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "})){\r",
+                  "pm.collectionVariables.set(\"list_id\", response.id);\r",
+                  "pm.test(\"Correct List Name\", function () {\r",
+                  "    pm.expect(response.name).to.eql(\"List\");\r",
+                  "});\r",
+                  "};"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer <access_token>",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "https://api.trello.com/1/lists?name=List&idBoard={{board_id}}&key={{key}}&token={{token}}",
+              "protocol": "https",
+              "host": [
+                "api",
+                "trello",
+                "com"
+              ],
+              "path": [
+                "1",
+                "lists"
+              ],
+              "query": [
+                {
+                  "key": "name",
+                  "value": "List"
+                },
+                {
+                  "key": "idBoard",
+                  "value": "{{board_id}}"
+                },
+                {
+                  "key": "key",
+                  "value": "{{key}}"
+                },
+                {
+                  "key": "token",
+                  "value": "{{token}}"
+                }
+              ]
+            },
+            "description": "Generated from cURL: curl --request POST \\\r\n  --url 'https://api.trello.com/1/lists?name={name}&idBoard=5abbe4b7ddc1b351ef961414' \\\r\n  --header 'Authorization: Bearer <access_token>'"
+          },
+          "response": []
+        },
+        {
+          "name": "Get List",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "let response = pm.response.json();\r",
+                  "pm.test(\"Important fields are present\", function(){\r",
+                  "    pm.expect(response.name).to.exist;\r",
+                  "    pm.expect(response.id).to.exist;\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer <access_token>",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "https://api.trello.com/1/lists/{{list_id}}?key={{key}}&token={{token}}",
+              "protocol": "https",
+              "host": [
+                "api",
+                "trello",
+                "com"
+              ],
+              "path": [
+                "1",
+                "lists",
+                "{{list_id}}"
+              ],
+              "query": [
+                {
+                  "key": "key",
+                  "value": "{{key}}"
+                },
+                {
+                  "key": "token",
+                  "value": "{{token}}"
+                }
+              ]
+            },
+            "description": "Generated from cURL: curl --request GET \\\r\n  --url 'https://api.trello.com/1/lists/{id}' \\\r\n  --header 'Authorization: Bearer <access_token>'"
+          },
+          "response": []
+        },
+        {
+          "name": "Update List",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer <access_token>",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "https://api.trello.com/1/lists/{{list_id}}?key={{key}}&token={{token}}&name=New List&pos=2",
+              "protocol": "https",
+              "host": [
+                "api",
+                "trello",
+                "com"
+              ],
+              "path": [
+                "1",
+                "lists",
+                "{{list_id}}"
+              ],
+              "query": [
+                {
+                  "key": "key",
+                  "value": "{{key}}"
+                },
+                {
+                  "key": "token",
+                  "value": "{{token}}"
+                },
+                {
+                  "key": "name",
+                  "value": "New List"
+                },
+                {
+                  "key": "pos",
+                  "value": "2"
+                }
+              ]
+            },
+            "description": "Generated from cURL: curl --request PUT \\\r\n  --url 'https://api.trello.com/1/lists/{id}' \\\r\n  --header 'Authorization: Bearer <access_token>'"
+          },
+          "response": []
+        },
+        {
+          "name": "Get List Copy",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  " let jsonData = pm.response.json();\r",
+                  "\r",
+                  "pm.test(\"Check Name and Position\", function () {\r",
+                  "    pm.expect(jsonData.name).to.eql(\"New List\");\r",
+                  "        pm.expect(jsonData.pos).to.eql(2);\r",
+                  "\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer <access_token>",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "https://api.trello.com/1/lists/{{list_id}}?key={{key}}&token={{token}}",
+              "protocol": "https",
+              "host": [
+                "api",
+                "trello",
+                "com"
+              ],
+              "path": [
+                "1",
+                "lists",
+                "{{list_id}}"
+              ],
+              "query": [
+                {
+                  "key": "key",
+                  "value": "{{key}}"
+                },
+                {
+                  "key": "token",
+                  "value": "{{token}}"
+                }
+              ]
+            },
+            "description": "Generated from cURL: curl --request GET \\\r\n  --url 'https://api.trello.com/1/lists/{id}' \\\r\n  --header 'Authorization: Bearer <access_token>'"
+          },
+          "response": []
+        },
+        {
+          "name": "Archive List",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer <access_token>",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "https://api.trello.com/1/lists/{{list_id}}/closed?key={{key}}&token={{token}}&value=true",
+              "protocol": "https",
+              "host": [
+                "api",
+                "trello",
+                "com"
+              ],
+              "path": [
+                "1",
+                "lists",
+                "{{list_id}}",
+                "closed"
+              ],
+              "query": [
+                {
+                  "key": "key",
+                  "value": "{{key}}"
+                },
+                {
+                  "key": "token",
+                  "value": "{{token}}"
+                },
+                {
+                  "key": "value",
+                  "value": "true"
+                }
+              ]
+            },
+            "description": "Generated from cURL: curl --request PUT \\\r\n  --url 'https://api.trello.com/1/lists/{id}/closed' \\\r\n  --header 'Authorization: Bearer <access_token>'"
+          },
+          "response": []
+        },
+        {
+          "name": "Get List Copy",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "let jsonData = pm.response.json();\r",
+                  "\r",
+                  "pm.test(\"Archive is true\", function () {\r",
+                  "    pm.expect(jsonData.closed).to.eql(true);\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer <access_token>",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "https://api.trello.com/1/lists/{{list_id}}?key={{key}}&token={{token}}",
+              "protocol": "https",
+              "host": [
+                "api",
+                "trello",
+                "com"
+              ],
+              "path": [
+                "1",
+                "lists",
+                "{{list_id}}"
+              ],
+              "query": [
+                {
+                  "key": "key",
+                  "value": "{{key}}"
+                },
+                {
+                  "key": "token",
+                  "value": "{{token}}"
+                }
+              ]
+            },
+            "description": "Generated from cURL: curl --request GET \\\r\n  --url 'https://api.trello.com/1/lists/{id}' \\\r\n  --header 'Authorization: Bearer <access_token>'"
+          },
+          "response": []
+        },
+        {
+          "name": "Unarchive List",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer <access_token>",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "https://api.trello.com/1/lists/{{list_id}}/closed?key={{key}}&token={{token}}&value=false",
+              "protocol": "https",
+              "host": [
+                "api",
+                "trello",
+                "com"
+              ],
+              "path": [
+                "1",
+                "lists",
+                "{{list_id}}",
+                "closed"
+              ],
+              "query": [
+                {
+                  "key": "key",
+                  "value": "{{key}}"
+                },
+                {
+                  "key": "token",
+                  "value": "{{token}}"
+                },
+                {
+                  "key": "value",
+                  "value": "false"
+                }
+              ]
+            },
+            "description": "Generated from cURL: curl --request PUT \\\r\n  --url 'https://api.trello.com/1/lists/{id}/closed' \\\r\n  --header 'Authorization: Bearer <access_token>'"
+          },
+          "response": []
+        },
+        {
+          "name": "Get List Copy",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "let jsonData = pm.response.json();\r",
+                  "\r",
+                  "pm.test(\"Archive is true\", function () {\r",
+                  "    pm.expect(jsonData.closed).to.eql(false);\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer <access_token>",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "https://api.trello.com/1/lists/{{list_id}}?key={{key}}&token={{token}}",
+              "protocol": "https",
+              "host": [
+                "api",
+                "trello",
+                "com"
+              ],
+              "path": [
+                "1",
+                "lists",
+                "{{list_id}}"
+              ],
+              "query": [
+                {
+                  "key": "key",
+                  "value": "{{key}}"
+                },
+                {
+                  "key": "token",
+                  "value": "{{token}}"
+                }
+              ]
+            },
+            "description": "Generated from cURL: curl --request GET \\\r\n  --url 'https://api.trello.com/1/lists/{id}' \\\r\n  --header 'Authorization: Bearer <access_token>'"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Cards",
+      "item": [
+        {
+          "name": "Create Card",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "let response = pm.response.json();\r",
+                  "if (pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "})){\r",
+                  "pm.collectionVariables.set(\"card_id\", response.id);\r",
+                  "pm.test(\"Correct Card Name\", function () {\r",
+                  "    pm.expect(response.name).to.eql(\"Card\");\r",
+                  "});\r",
+                  "};"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer <access_token>",
+                "disabled": true
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "https://api.trello.com/1/cards?idList={{list_id}}&key={{key}}&token={{token}}&name=Card&desc=Hello, It's new card!&dueComplete=true&start=2026-10-15T17:00:00.000Z&due=2026-10-16T19:00:00.000Z&pos=top",
+              "protocol": "https",
+              "host": [
+                "api",
+                "trello",
+                "com"
+              ],
+              "path": [
+                "1",
+                "cards"
+              ],
+              "query": [
+                {
+                  "key": "idList",
+                  "value": "{{list_id}}"
+                },
+                {
+                  "key": "key",
+                  "value": "{{key}}"
+                },
+                {
+                  "key": "token",
+                  "value": "{{token}}"
+                },
+                {
+                  "key": "name",
+                  "value": "Card"
+                },
+                {
+                  "key": "desc",
+                  "value": "Hello, It's new card!"
+                },
+                {
+                  "key": "dueComplete",
+                  "value": "true"
+                },
+                {
+                  "key": "start",
+                  "value": "2026-10-15T17:00:00.000Z"
+                },
+                {
+                  "key": "due",
+                  "value": "2026-10-16T19:00:00.000Z"
+                },
+                {
+                  "key": "pos",
+                  "value": "top",
+                  "type": "text"
+                }
+              ]
+            },
+            "description": "Generated from cURL: curl --request POST \\\r\n  --url 'https://api.trello.com/1/cards?idList=5abbe4b7ddc1b351ef961414' \\\r\n  --header 'Authorization: Bearer <access_token>' \\\r\n  --header 'Accept: application/json'"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Card",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "let response = pm.response.json();\r",
+                  "\r",
+                  "pm.test(\"Due is not null!\", function(){\r",
+                  "    pm.expect(response.due).to.not.be.null;\r",
+                  "})\r",
+                  "\r",
+                  "pm.test(\"Start date is not null!\", function(){\r",
+                  "    pm.expect(response.start).to.not.be.null;\r",
+                  "})"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer <access_token>",
+                "disabled": true
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "https://api.trello.com/1/cards/{{card_id}}?key={{key}}&token={{token}}",
+              "protocol": "https",
+              "host": [
+                "api",
+                "trello",
+                "com"
+              ],
+              "path": [
+                "1",
+                "cards",
+                "{{card_id}}"
+              ],
+              "query": [
+                {
+                  "key": "key",
+                  "value": "{{key}}"
+                },
+                {
+                  "key": "token",
+                  "value": "{{token}}"
+                }
+              ]
+            },
+            "description": "Generated from cURL: curl --request GET \\\r\n  --url 'https://api.trello.com/1/cards/{id}' \\\r\n  --header 'Authorization: Bearer <access_token>' \\\r\n  --header 'Accept: application/json'"
+          },
+          "response": []
+        },
+        {
+          "name": "Update Card",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer <access_token>",
+                "disabled": true
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "https://api.trello.com/1/cards/{{card_id}}?key={{key}}&token={{token}}&name=New Card&start=2026-10-25T17:00:00.000Z&due=2026-10-16T19:00:00.000Z&pos=3&dueComplete=false",
+              "protocol": "https",
+              "host": [
+                "api",
+                "trello",
+                "com"
+              ],
+              "path": [
+                "1",
+                "cards",
+                "{{card_id}}"
+              ],
+              "query": [
+                {
+                  "key": "key",
+                  "value": "{{key}}"
+                },
+                {
+                  "key": "token",
+                  "value": "{{token}}"
+                },
+                {
+                  "key": "name",
+                  "value": "New Card"
+                },
+                {
+                  "key": "start",
+                  "value": "2026-10-25T17:00:00.000Z"
+                },
+                {
+                  "key": "due",
+                  "value": "2026-10-16T19:00:00.000Z"
+                },
+                {
+                  "key": "pos",
+                  "value": "3"
+                },
+                {
+                  "key": "dueComplete",
+                  "value": "false",
+                  "type": "text"
+                }
+              ]
+            },
+            "description": "Generated from cURL: curl --request PUT \\\r\n  --url 'https://api.trello.com/1/cards/{id}' \\\r\n  --header 'Authorization: Bearer <access_token>' \\\r\n  --header 'Accept: application/json'"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Card Copy",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "let jsonData = pm.response.json();\r",
+                  "\r",
+                  "pm.test(\"Check Name, Position and due complete\", function () {\r",
+                  "    pm.expect(jsonData.name).to.eql(\"New Card\");\r",
+                  "        pm.expect(jsonData.pos).to.eql(3);\r",
+                  "        pm.expect(jsonData.badges.dueComplete).to.eql(false);\r",
+                  "\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer <access_token>",
+                "disabled": true
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "https://api.trello.com/1/cards/{{card_id}}?key={{key}}&token={{token}}",
+              "protocol": "https",
+              "host": [
+                "api",
+                "trello",
+                "com"
+              ],
+              "path": [
+                "1",
+                "cards",
+                "{{card_id}}"
+              ],
+              "query": [
+                {
+                  "key": "key",
+                  "value": "{{key}}"
+                },
+                {
+                  "key": "token",
+                  "value": "{{token}}"
+                }
+              ]
+            },
+            "description": "Generated from cURL: curl --request GET \\\r\n  --url 'https://api.trello.com/1/cards/{id}' \\\r\n  --header 'Authorization: Bearer <access_token>' \\\r\n  --header 'Accept: application/json'"
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Card",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer <access_token>",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "https://api.trello.com/1/cards/{{card_id}}?key={{key}}&token={{token}}",
+              "protocol": "https",
+              "host": [
+                "api",
+                "trello",
+                "com"
+              ],
+              "path": [
+                "1",
+                "cards",
+                "{{card_id}}"
+              ],
+              "query": [
+                {
+                  "key": "key",
+                  "value": "{{key}}",
+                  "type": "text"
+                },
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "text"
+                }
+              ]
+            },
+            "description": "Generated from cURL: curl --request DELETE \\\r\n  --url 'https://api.trello.com/1/cards/{id}' \\\r\n  --header 'Authorization: Bearer <access_token>'"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Card Copy",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 404\", function () {\r",
+                  "    pm.response.to.have.status(404);\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer <access_token>",
+                "disabled": true
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "https://api.trello.com/1/cards/{{card_id}}?key={{key}}&token={{token}}",
+              "protocol": "https",
+              "host": [
+                "api",
+                "trello",
+                "com"
+              ],
+              "path": [
+                "1",
+                "cards",
+                "{{card_id}}"
+              ],
+              "query": [
+                {
+                  "key": "key",
+                  "value": "{{key}}"
+                },
+                {
+                  "key": "token",
+                  "value": "{{token}}"
+                }
+              ]
+            },
+            "description": "Generated from cURL: curl --request GET \\\r\n  --url 'https://api.trello.com/1/cards/{id}' \\\r\n  --header 'Authorization: Bearer <access_token>' \\\r\n  --header 'Accept: application/json'"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Checklists",
+      "item": [
+        {
+          "name": "Create Checklist",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "let response = pm.response.json();\r",
+                  "if (pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "})){\r",
+                  "pm.collectionVariables.set(\"checklist_id\", response.id);\r",
+                  "pm.test(\"Correct Checklist Name\", function () {\r",
+                  "    pm.expect(response.name).to.eql(\"Checklist\");\r",
+                  "});\r",
+                  "};"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer <access_token>",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "https://api.trello.com/1/checklists?idCard={{card_id}}&key={{key}}&token={{token}}&pos=top",
+              "protocol": "https",
+              "host": [
+                "api",
+                "trello",
+                "com"
+              ],
+              "path": [
+                "1",
+                "checklists"
+              ],
+              "query": [
+                {
+                  "key": "idCard",
+                  "value": "{{card_id}}"
+                },
+                {
+                  "key": "key",
+                  "value": "{{key}}"
+                },
+                {
+                  "key": "token",
+                  "value": "{{token}}"
+                },
+                {
+                  "key": "name",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "pos",
+                  "value": "top"
+                }
+              ]
+            },
+            "description": "Generated from cURL: curl --request POST \\\r\n  --url 'https://api.trello.com/1/checklists?idCard=5abbe4b7ddc1b351ef961414' \\\r\n  --header 'Authorization: Bearer <access_token>'"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Checklist",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "let response = pm.response.json();\r",
+                  "\r",
+                  "pm.test(\"Check ths ID Board is correct!\", function(){\r",
+                  "    pm.expect(response.idBoard).to.eql(pm.collectionVariables.get(\"board_id\"));\r",
+                  "})\r",
+                  "\r",
+                  "pm.test(\"Check ths ID Card is correct!\", function(){\r",
+                  "    pm.expect(response.idCard).to.eql(pm.collectionVariables.get(\"card_id\"));\r",
+                  "})\r",
+                  "\r",
+                  "pm.test(\"Name is not null!\", function(){\r",
+                  "    pm.expect(response.name).to.not.be.null;\r",
+                  "})"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer <access_token>",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "https://api.trello.com/1/checklists/{{checklist_id}}?key={{key}}&token={{token}}",
+              "protocol": "https",
+              "host": [
+                "api",
+                "trello",
+                "com"
+              ],
+              "path": [
+                "1",
+                "checklists",
+                "{{checklist_id}}"
+              ],
+              "query": [
+                {
+                  "key": "key",
+                  "value": "{{key}}"
+                },
+                {
+                  "key": "token",
+                  "value": "{{token}}"
+                }
+              ]
+            },
+            "description": "Generated from cURL: curl --request GET \\\r\n  --url 'https://api.trello.com/1/checklists/{id}' \\\r\n  --header 'Authorization: Bearer <access_token>'"
+          },
+          "response": []
+        },
+        {
+          "name": "Update Checklist",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer <access_token>",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "https://api.trello.com/1/checklists/{{checklist_id}}?key={{key}}&token={{token}}&name=New Checklist&pos=2",
+              "protocol": "https",
+              "host": [
+                "api",
+                "trello",
+                "com"
+              ],
+              "path": [
+                "1",
+                "checklists",
+                "{{checklist_id}}"
+              ],
+              "query": [
+                {
+                  "key": "key",
+                  "value": "{{key}}"
+                },
+                {
+                  "key": "token",
+                  "value": "{{token}}"
+                },
+                {
+                  "key": "name",
+                  "value": "New Checklist"
+                },
+                {
+                  "key": "pos",
+                  "value": "2"
+                }
+              ]
+            },
+            "description": "Generated from cURL: curl --request PUT \\\r\n  --url 'https://api.trello.com/1/checklists/{id}' \\\r\n  --header 'Authorization: Bearer <access_token>'"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Checklist Copy",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "let response = pm.response.json();\r",
+                  "\r",
+                  "pm.test(\"Check ths ID Board is correct!\", function(){\r",
+                  "    pm.expect(response.idBoard).to.eql(pm.collectionVariables.get(\"board_id\"));\r",
+                  "})\r",
+                  "\r",
+                  "pm.test(\"Check ths ID Card is correct!\", function(){\r",
+                  "    pm.expect(response.idCard).to.eql(pm.collectionVariables.get(\"card_id\"));\r",
+                  "})\r",
+                  "\r",
+                  "pm.test(\"Name is not null!\", function(){\r",
+                  "    pm.expect(response.name).to.not.be.null;\r",
+                  "})"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer <access_token>",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "https://api.trello.com/1/checklists/{{checklist_id}}?key={{key}}&token={{token}}",
+              "protocol": "https",
+              "host": [
+                "api",
+                "trello",
+                "com"
+              ],
+              "path": [
+                "1",
+                "checklists",
+                "{{checklist_id}}"
+              ],
+              "query": [
+                {
+                  "key": "key",
+                  "value": "{{key}}"
+                },
+                {
+                  "key": "token",
+                  "value": "{{token}}"
+                }
+              ]
+            },
+            "description": "Generated from cURL: curl --request GET \\\r\n  --url 'https://api.trello.com/1/checklists/{id}' \\\r\n  --header 'Authorization: Bearer <access_token>'"
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Checklist",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer <access_token>",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "https://api.trello.com/1/checklists/{{checklist_id}}?key={{key}}&token={{token}}",
+              "protocol": "https",
+              "host": [
+                "api",
+                "trello",
+                "com"
+              ],
+              "path": [
+                "1",
+                "checklists",
+                "{{checklist_id}}"
+              ],
+              "query": [
+                {
+                  "key": "key",
+                  "value": "{{key}}"
+                },
+                {
+                  "key": "token",
+                  "value": "{{token}}"
+                }
+              ]
+            },
+            "description": "Generated from cURL: curl --request DELETE \\\r\n  --url 'https://api.trello.com/1/checklists/{id}' \\\r\n  --header 'Authorization: Bearer <access_token>'"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Checklist Copy",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 404\", function () {\r",
+                  "    pm.response.to.have.status(404);\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer <access_token>",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "https://api.trello.com/1/checklists/{{checklist_id}}?key={{key}}&token={{token}}",
+              "protocol": "https",
+              "host": [
+                "api",
+                "trello",
+                "com"
+              ],
+              "path": [
+                "1",
+                "checklists",
+                "{{checklist_id}}"
+              ],
+              "query": [
+                {
+                  "key": "key",
+                  "value": "{{key}}"
+                },
+                {
+                  "key": "token",
+                  "value": "{{token}}"
+                }
+              ]
+            },
+            "description": "Generated from cURL: curl --request GET \\\r\n  --url 'https://api.trello.com/1/checklists/{id}' \\\r\n  --header 'Authorization: Bearer <access_token>'"
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          "pm.test(\"Response time is less than 1000ms\", function () {\r",
+          "    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+          "});"
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "key",
+      "value": ""
+    },
+    {
+      "key": "token",
+      "value": ""
+    },
+    {
+      "key": "board_id",
+      "value": ""
+    },
+    {
+      "key": "list_id",
+      "value": ""
+    },
+    {
+      "key": "card_id",
+      "value": ""
+    },
+    {
+      "key": "checklist_id",
+      "value": ""
+    }
+  ]
+}
